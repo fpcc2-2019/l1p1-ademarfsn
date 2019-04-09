@@ -25,6 +25,17 @@ glimpse(climas)
 
 ### Onde é mais quente?
 
+```{r}
+climas %>%
+filter(!is.na(tmax)) %>% 
+    ggplot(aes(x = cidade, y = tmax)) + 
+    geom_boxplot(width = .2, outlier.colour = NA, coef = 1000) + 
+    geom_jitter(width = 0.05, alpha = 0.4, color = "brown")
+```
+
+
+No geral, observando o boxplot, vimos que Campina Grande é mais quente, apesar da mediana das duas cidades serem iguais, mas, em Campina Grande, Há concentração da mediana até o terceiro quartil é muito grande, com temperaturas maiores do que a de João Pessoa. 
+
 
 ### As temperaturas máximas semanais (o pico do calor) são tão diferentes quanto as médias? Mais?  
 
@@ -34,7 +45,15 @@ glimpse(climas)
 
 ### Qual foi o São João  mais frio de CG que está nos nossos dados?
 
+Para verificar São João mais frio, foi criado um subconjunto descrito como sj, ele cria esse subconjunto baseado na temperatura máxima de todos os meses junho de Campina Grande dos anos que tem nos dados.
 
+```{r}
+sj <-subset(climas, mes==6 & tmax & cidade=="Campina Grande")
+ggplot(data = sj) + 
+    geom_point(mapping = aes(x = ano, y = tmax))
+```
+
+Verificando o gráfico, o São João mais frio foi o ano de 2004, porque a temperatura máxima das quatro semana do mês de junho não chega a 27º Celsius. Enquanto os demais anos, tem ao menos uma semana que atinge 27º ou mais.
 
 ## Chuva
 
@@ -43,6 +62,13 @@ glimpse(climas)
 Como é a distribuição do volume de chuvas por semana em JP e CG? A chuva varia mais ou menos que a temperatura? O formato da distribuição é igual? 
 
 ### No geral, onde chove mais?
+
+```{r}
+ggplot(data = climas) +
+    geom_boxplot(mapping = aes(x=cidade, y=chuva))
+```
+
+No geral, em João Pessoa (JP) chove mais. Basta verificar no boxplot, apesar de ter um pouco mais de variabilidade, a média e a mediana está maior em JP.
 
 ### A distribuição é diferente em meses específicos? 
 
